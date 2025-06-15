@@ -2,7 +2,9 @@ services:
   - type: web
     name: movie-explorer-backend
     env: node
-    buildCommand: cd backend && npm install
+    buildCommand: |
+      cd backend
+      npm install
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
@@ -20,10 +22,17 @@ services:
     name: movie-explorer-frontend
     env: node
     buildCommand: |
+      # Install root dependencies
+      npm install
+      # Install and build backend
+      cd backend
+      npm install
+      cd ..
+      # Install and build frontend
       cd frontend
       npm install
       npm run build
-    staticPublishPath: ./dist
+    staticPublishPath: frontend/dist
     routes:
       - type: rewrite
         source: /*
