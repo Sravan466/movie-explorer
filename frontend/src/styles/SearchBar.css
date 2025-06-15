@@ -1,0 +1,213 @@
+.search-container {
+    width: 100%;
+    padding: 0;
+    background-color: #090909; /* Fallback if image not loaded */
+    border-bottom: none; /* Remove border */
+    position: relative;
+    height: 360px; /* Adjust height as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center 30%; /* Adjust vertical position to bring characters more into view */
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out; /* Smooth transition for background */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%); /* Dark overlay for text readability */
+    z-index: 1;
+}
+
+.search-content {
+    position: relative;
+    z-index: 2; /* Ensure content is above overlay */
+    max-width: 1000px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+.search-title {
+    font-size: 3em;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.search-subtitle {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    font-weight: 400;
+    opacity: 0.9;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.search-form {
+    width: 100%;
+    max-width: 800px; /* Adjust max-width if necessary */
+    margin: 0 auto;
+    background-color: white; /* White background for the input group */
+    border-radius: 50px; /* Rounded corners for the entire input group */
+    display: flex; /* Ensure it stays a flex container */
+    overflow: hidden; /* Hide anything outside the rounded corners */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border: 1px solid white; /* Add a subtle white border to the whole form */
+}
+
+.search-input-group {
+    display: flex;
+    width: 100%;
+    /* Removed gap: 0; as it's not needed with no internal border */
+}
+
+.search-input {
+    flex: 1;
+    padding: 15px 30px;
+    border: none; /* Ensure no internal border */
+    /* The border-radius should be only on the left side, the right side should be sharp */
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    font-size: 1.2em;
+    background-color: white;
+    color: #333;
+    transition: none;
+    height: 25px;
+}
+
+.search-input::placeholder {
+    color: #999;
+    font-weight: 300;
+}
+
+.search-input:focus {
+    outline: none; /* Remove outline */
+    box-shadow: none; /* Remove box shadow */
+}
+
+.search-button {
+    padding: 15px 30px;
+    background: #e50914;
+    color: white;
+    border: none; /* Ensure no internal border */
+    /* The border-radius should be only on the right side, the left side should be sharp */
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    height: 60px;
+    flex-shrink: 0;
+    margin-left: -1px; /* Overlap by 1px to close the gap */
+}
+
+.search-button:hover {
+    background-color: #f40612; /* Slightly darker red on hover */
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.5); /* Red glowing effect */
+}
+
+.search-button:active {
+    transform: none; /* Keep consistent with no scale transform */
+}
+
+.search-button:disabled {
+    background: #ccc; /* Lighter disabled background */
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        height: 300px;
+    }
+
+    .search-title {
+        font-size: 2.5em;
+    }
+
+    .search-subtitle {
+        font-size: 1.2em;
+    }
+
+    .search-form {
+        max-width: 600px;
+        border-radius: 40px;
+    }
+
+    .search-input {
+        padding: 12px 25px; /* Slightly reduced padding */
+        font-size: 1.1em; /* Slightly reduced font size */
+        height: auto; /* Allow height to adjust */
+        border-top-left-radius: 40px;
+        border-bottom-left-radius: 40px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .search-button {
+        padding: 12px 25px; /* Slightly reduced padding */
+        font-size: 1.1em; /* Slightly reduced font size */
+        height: auto; /* Allow height to adjust */
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 40px;
+        border-bottom-right-radius: 40px;
+        margin-left: -1px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-container {
+        height: 250px;
+        padding: 10px;
+    }
+
+    .search-title {
+        font-size: 2em;
+    }
+
+    .search-subtitle {
+        font-size: 1em;
+    }
+
+    .search-form {
+        max-width: 95%; /* Allow it to take more width */
+        border-radius: 30px;
+    }
+
+    .search-input {
+        padding: 10px 15px; /* Further reduced padding */
+        font-size: 1em; /* Further reduced font size */
+        height: auto;
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .search-button {
+        padding: 10px 15px; /* Further reduced padding */
+        font-size: 1em; /* Further reduced font size */
+        height: auto; /* Allow height to adjust */
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        margin-left: -1px;
+    }
+} 

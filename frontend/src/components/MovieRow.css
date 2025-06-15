@@ -1,0 +1,263 @@
+/* frontend/src/components/MovieRow.css - Rebuilt from scratch */
+
+.movie-row {
+  margin-bottom: 25px; /* Space between rows */
+  position: relative;
+  width: 100%;
+  box-sizing: border-box; /* Include padding in width */
+  padding-right: 40px; /* Right padding for the entire row to prevent content touching edge */
+}
+
+/* Movie Row Title Styling */
+.movie-row-title {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  margin-left: 40px;
+  margin-top: 0;
+  padding: 0;
+}
+
+.see-more-link {
+  color: #00a8e1;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.see-more-link:hover {
+  color: #0099d4;
+}
+
+.see-more-arrow {
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.see-more-link:hover .see-more-arrow {
+  transform: translateX(2px);
+}
+
+.movie-row-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  overflow: hidden; /* Hide anything that goes beyond the content-container */
+}
+
+.movie-row-scrollable {
+  display: flex;
+  overflow-x: scroll; /* Enable horizontal scrolling */
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  padding-bottom: 15px; /* Space for scrollbar and slight shadow */
+  width: 100%;
+  box-sizing: border-box;
+  /* These paddings are now consistent with the header's left padding */
+  padding-left: 40px; 
+  padding-right: 0; /* Managed by .movie-row's padding-right */
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.movie-row-scrollable > div[role="button"] {
+  flex: 0 0 auto; /* Prevent items from shrinking */
+  margin-right: 18px; /* Space between movie cards */
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s ease-out; /* Smooth hover effect for cards */
+}
+
+.movie-row-scrollable > div[role="button"]:last-child {
+  margin-right: 0; /* No margin on the last item */
+}
+
+/* Optional: Slight scale on hover for movie cards */
+.movie-row-scrollable > div[role="button"]:hover {
+  transform: scale(1.03);
+}
+
+/* --- Scroll Arrows Styling --- */
+.scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(20, 20, 20, 0.85); /* Darker background, slightly more opaque */
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Thinner border */
+  border-radius: 50%;
+  width: 45px; /* Slightly larger arrows */
+  height: 45px;
+  font-size: 26px; /* Larger icon */
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8; /* Slightly more opaque by default */
+  pointer-events: auto;
+  transition: opacity 0.3s ease, background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+}
+
+.scroll-arrow.inactive {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+  box-shadow: none; /* No shadow when inactive */
+}
+
+.scroll-arrow:hover {
+  opacity: 1;
+  background-color: #e50914; /* Netflix red on hover */
+  transform: translateY(-50%) scale(1.08); /* More subtle scale */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.left-arrow {
+  left: 0px; /* Flush with the left edge of the movie content */
+}
+
+.right-arrow {
+  right: 0px; /* Flush with the right edge of the movie content */
+}
+
+.loading-text,
+.error-text {
+  padding-left: 40px; /* Align with the start of the movie row content */
+  color: #999;
+  font-style: italic;
+  margin-left: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.error-text {
+  color: #ff6b6b;
+}
+
+/* --- Custom Scrollbar Styling (for Webkit browsers like Chrome, Safari) --- */
+.movie-row-scrollable::-webkit-scrollbar {
+  height: 10px; /* Thicker scrollbar */
+  background-color: transparent;
+}
+
+.movie-row-scrollable::-webkit-scrollbar-track {
+  background: rgba(30, 30, 30, 0.5); /* Darker track */
+  border-radius: 10px;
+}
+
+.movie-row-scrollable::-webkit-scrollbar-thumb {
+  background-color: #e50914; /* Netflix red */
+  border-radius: 10px;
+  border: 3px solid transparent; /* Thicker transparent border for spacing */
+  background-clip: content-box; /* Ensure border doesn't shrink the thumb */
+}
+
+.movie-row-content:hover .movie-row-scrollable::-webkit-scrollbar-thumb {
+  background-color: #ff3333; /* Lighter red on content hover */
+}
+
+.movie-row-scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: #ff3333;
+}
+
+/* Firefox scrollbar styling */
+.movie-row-scrollable {
+  scrollbar-width: thin; /* "auto" or "thin" */
+  scrollbar-color: #e50914 rgba(30, 30, 30, 0.5); /* thumb color track color */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .movie-row {
+    margin-bottom: 20px;
+    padding-right: 20px;
+  }
+
+  .movie-row-title {
+    font-size: 20px;
+    margin-left: 20px;
+  }
+
+  .see-more-link {
+    font-size: 14px;
+  }
+
+  .movie-row-scrollable {
+    padding-bottom: 10px;
+    padding-left: 20px; /* Adjust padding for smaller screens */
+  }
+
+  .movie-row-scrollable > div[role="button"] {
+    margin-right: 12px;
+  }
+
+  .scroll-arrow {
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
+  }
+
+  .left-arrow {
+    left: 0px; /* Adjust for mobile padding */
+  }
+
+  .right-arrow {
+    right: 0px; /* Adjust for mobile padding */
+  }
+
+  .loading-text,
+  .error-text {
+    padding-left: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-row {
+    margin-bottom: 15px;
+    padding-right: 15px;
+  }
+
+  .movie-row-title {
+    font-size: 18px;
+    margin-left: 15px;
+  }
+
+  .see-more-link {
+    font-size: 13px;
+  }
+
+  .movie-row-scrollable > div[role="button"] {
+    margin-right: 10px;
+    flex: 0 0 120px; /* Example fixed width for smaller screens */
+  }
+
+  .scroll-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .left-arrow {
+    left: 0px; /* Adjust for mobile padding */
+  }
+
+  .right-arrow {
+    right: 0px; /* Adjust for mobile padding */
+  }
+
+  .loading-text,
+  .error-text {
+    padding-left: 15px;
+  }
+}

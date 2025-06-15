@@ -1,0 +1,1311 @@
+/* frontend/src/App.css */
+body {
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #101010; /* Unified darkest background */
+  color: #e5e5e5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
+  width: 100%;
+  max-width: 1920px; /* Common max for large desktops */
+  margin: 0 auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure footer is at bottom if content is short */
+}
+
+.app-header {
+  background-color: #090909; /* Even darker, distinct header */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px; /* Vertical, Horizontal padding */
+  /* margin-bottom: 30px; /* Moved to app-main's padding-top */
+  border-bottom: 2px solid #e50914; /* Thinner, sharper accent */
+  min-height: 60px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  position: sticky; /* Sticky header */
+  top: 0;
+  z-index: 1000; /* Ensure header is above other content */
+}
+
+.header-left, .header-right {
+  flex: 1;
+  display: flex; /* Ensure flex for proper alignment of children */
+  align-items: center; /* Align items vertically */
+}
+.header-left {
+  justify-content: flex-start; /* Align to the start */
+  gap: 15px; /* Add some space between back button and bookmarks button */
+}
+.header-right {
+  justify-content: flex-end;
+}
+
+.header-center {
+  flex: auto; /* Allow it to take necessary space but not over-expand */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-center .app-title-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.8em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.app-title-part {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.app-title-icon {
+  color: #e50914; /* Red color for the bookmark icon */
+  margin-left: 5px;
+  font-size: 0.8em; /* Adjust icon size relative to text */
+}
+
+.auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-nav-link {
+  background: none;
+  border: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+  color: #b3b3b3; /* Softer default link color */
+  text-decoration: none !important ;
+  font-weight: 500;
+  font-size: 0.9em;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.auth-nav-link:hover,
+.auth-nav-link.active { /* Example for active link styling */
+  background-color: #e50914;
+  color: #fff;
+  border-color: #e50914;
+}
+
+.auth-nav-link:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: none;
+  color: #b3b3b3;
+  border: 1px solid #444;
+}
+
+.app-main {
+  flex-grow: 1;
+  /* MODIFIED: Removed consistent padding for desktop view to allow content to stretch to edges */
+  padding: 0; 
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.content-container {
+  padding-left: 0;
+  box-sizing: border-box;
+}
+
+/* Search Bar Container with Back Button */
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  /* MODIFIED: Padding is now controlled by app-main, remove from here if search bar is inside app-main */
+  /* If search bar is outside app-main, this padding should match app-main's */
+  padding: 20px 40px; 
+  background-color: #0a0a0a;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.back-button-wrapper {
+  flex-shrink: 0;
+}
+
+.professional-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.professional-back-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.professional-back-button:hover {
+  background: rgba(229, 9, 20, 0.9);
+  border-color: rgba(229, 9, 20, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3);
+}
+
+.professional-back-button:hover::before {
+  left: 100%;
+}
+
+.professional-back-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.professional-back-button:focus {
+  outline: 2px solid rgba(229, 9, 20, 0.5);
+  outline-offset: 2px;
+}
+
+.back-icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.professional-back-button:hover .back-icon {
+  transform: translateX(-2px);
+}
+
+.professional-back-button span {
+  font-family: inherit;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive back button in search bar */
+@media (max-width: 768px) {
+  .search-bar-container {
+    padding: 15px 20px;
+  }
+
+  .professional-back-button {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+
+  .back-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .auth-nav-link {
+    padding: 6px 12px;
+    font-size: 0.8em;
+  }
+
+  .app-main {
+    padding: 0; /* Removed horizontal padding here */
+  }
+
+  .search-bar-container {
+    padding: 15px 20px;
+  }
+
+  .search-bar-container .back-button-wrapper {
+    margin-right: 15px;
+  }
+
+  .search-bar-container .professional-back-button {
+    padding: 8px 15px;
+  }
+
+  .movie-list-container h2 {
+    font-size: 1.5em;
+  }
+
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+  }
+
+  .movie-card {
+    width: unset; /* Let grid handle width */
+  }
+}
+
+@media (max-width: 480px) {
+  .search-bar-container {
+    padding: 10px 15px;
+  }
+
+  .professional-back-button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .back-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .auth-nav-link {
+    padding: 5px 10px;
+    font-size: 0.75em;
+  }
+
+  .app-main {
+    padding: 0; /* Removed horizontal padding here */
+  }
+
+  .movie-list-container h2 {
+    font-size: 1.3em;
+  }
+
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+}
+
+/* App error messages */
+.app-error {
+  color: #e50914;
+  background-color: #330000;
+  border: 1px solid #e50914;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* No results messages */
+.no-results {
+  text-align: center;
+  padding: 50px 20px;
+  color: #b3b3b3;
+  font-size: 1.1em;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  margin-top: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.no-results p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Flash messages/notifications */
+.flash-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 18px 30px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  z-index: 9999;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  animation: slideDownFadeOut 5s ease forwards;
+  max-width: 90%;
+  text-align: left;
+  backdrop-filter: blur(12px);
+  border-left: 6px solid;
+}
+
+.flash-message.success {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  border-color: #1db954;
+}
+
+.flash-message.error {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  border-color: #ff1744;
+}
+
+.flash-message.info {
+  background: linear-gradient(135deg, #2196F3, #6ec6ff);
+  border-color: #1976d2;
+}
+
+.flash-icon {
+  font-size: 1.5em;
+}
+
+.flash-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.flash-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-size: 1.05em;
+}
+
+.flash-message-text {
+  margin: 0;
+  font-size: 0.95em;
+}
+
+/* Animation Keyframes */
+@keyframes slideDownFadeOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+}
+
+
+/* Animation for notifications */
+@keyframes slideIn {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Footer Styles */
+.app-footer {
+  background-color: #0a0a0a;
+  padding: 20px 40px;
+  border-top: 1px solid #1f1f1f;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  min-height: 60px;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.copyright-section {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.copyright {
+  color: #b3b3b3;
+  font-size: 0.9rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.credits {
+  margin-left: auto;
+  text-align: right;
+}
+
+.developer-credit {
+  color: #e5e5e5;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.developer-name {
+  color: #e50914;
+  font-weight: 600;
+}
+
+.developer-email {
+  color: #b3b3b3;
+  text-decoration: none;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.developer-email:hover {
+  color: #e50914;
+}
+
+.email-icon {
+  font-size: 0.9rem;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  .app-footer {
+    padding: 15px 20px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 15px;
+    min-height: auto;
+  }
+
+  .copyright-section {
+    position: static;
+    transform: none;
+    order: 2;
+  }
+
+  .credits {
+    margin-left: 0;
+    text-align: center;
+    order: 1;
+  }
+
+  .developer-email {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-footer {
+    padding: 12px 15px;
+  }
+
+  .copyright,
+  .developer-credit {
+    font-size: 0.85rem;
+  }
+
+  .developer-email {
+    font-size: 0.8rem;
+  }
+}
+
+a {
+  color: #e5e5e5;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #e50914;
+}
+
+/* Mobile Menu Button - General */
+.mobile-menu-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px; /* Adjust size as needed */
+  cursor: pointer;
+  display: none; /* Hidden by default on desktop */
+  margin-left: 20px; /* Space from search bar if present */
+  z-index: 1001; /* Above header elements */
+}
+
+/* Mobile Menu Dropdown - General */
+.mobile-menu-dropdown {
+  position: absolute;
+  top: 60px; /* Below header */
+  right: 0;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  width: 200px; /* Or adjust as needed */
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.mobile-menu-link {
+  color: #e5e5e5;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: block;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-menu-link:hover {
+  background-color: #2a2a2a;
+}
+
+.mobile-menu-link:not(:last-child) {
+  border-bottom: 1px solid #333;
+}
+
+.mobile-menu-greeting {
+  padding: 10px 20px;
+  color: #b3b3b3;
+  font-size: 0.9em;
+  border-bottom: 1px solid #333;
+}
+
+/* Responsive adjustments */
+
+/* For screens wider than 768px, hide mobile menu and show desktop nav */
+@media (min-width: 769px) {
+  .mobile-menu-container {
+    display: none; /* Hide mobile menu container */
+  }
+
+  .header-right .auth-nav {
+    display: flex; /* Ensure desktop nav is visible */
+  }
+}
+
+/* For screens up to 768px (tablets and mobile) */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 10px 15px;
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Back button, Title, Dropdown */
+    gap: 10px; /* Spacing between grid items */
+  }
+
+  .header-left {
+    grid-column: 1 / 2;
+    justify-content: flex-start;
+    display: flex; /* Ensure display flex for centering back button */
+  }
+
+  .header-center {
+    grid-column: 2 / 3;
+    /* Already centered via text-align, but flex allows for icon centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header-right {
+    grid-column: 3 / 4;
+    justify-content: flex-end;
+  }
+
+  /* Hide desktop auth nav on mobile */
+  .auth-nav {
+    display: none; 
+  }
+
+  /* Show mobile menu button */
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .mobile-menu-container.open .mobile-menu-dropdown {
+    display: flex; /* Show dropdown when open */
+  }
+
+  .header-center .app-title-link {
+    font-size: 1.5em; /* Smaller font for mobile */
+  }
+}
+
+/* For screens up to 480px (smaller mobiles) */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 8px 10px;
+  }
+
+  .header-center .app-title-link {
+    font-size: 1.3em; /* Even smaller font for tiny screens */
+  }
+
+  .mobile-menu-button {
+    font-size: 20px;
+  }
+
+  .mobile-menu-dropdown {
+    width: 180px;
+  }
+}
+
+/* General search results page styles */
+.search-results-page {
+  padding: 20px;
+  background-color: #1a1a1a; /* Lighter background for content area */
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-results-header {
+  border-bottom: 1px solid #333;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.search-results-header h2 {
+  color: #e5e5e5;
+  font-size: 1.8em;
+  margin: 0 0 10px 0;
+}
+
+.search-results-header p {
+  color: #b3b3b3;
+  font-size: 1em;
+  margin: 0;
+}
+
+/* Movie list containers - for horizontal scrolling rows */
+.movie-list-container {
+  margin-bottom: 40px;
+}
+
+.movie-list-container h2 {
+  color: #e5e5e5;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.movie-row {
+  /* display: flex; */
+  overflow-x: auto;
+  padding: 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+/* Movie Card specific styles */
+.movie-card {
+  flex-shrink: 0;
+  width: 180px; /* Standard card width */
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  margin-right: 15px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.movie-card img {
+  width: 100%;
+  height: 270px; /* Fixed height for consistency (180 * 1.5) */
+  object-fit: cover;
+  border-bottom: 1px solid #333;
+}
+
+.movie-card h3 {
+  font-size: 1.1em;
+  margin: 10px 10px 5px 10px;
+  color: #e5e5e5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card p {
+  font-size: 0.9em;
+  color: #b3b3b3;
+  margin: 0 10px 10px 10px;
+}
+
+/* Responsive adjustments for MovieRow and MovieCard */
+@media (max-width: 1024px) {
+  .movie-card {
+    width: 160px;
+  }
+  .movie-card img {
+    height: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-list-container h2 {
+    font-size: 1.5em;
+  }
+  .movie-card {
+    width: 140px;
+    margin-right: 10px;
+  }
+  .movie-card img {
+    height: 210px;
+  }
+  .movie-card h3 {
+    font-size: 1em;
+  }
+  .movie-card p {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-list-container h2 {
+    font-size: 1.3em;
+  }
+  .movie-card {
+    width: 120px;
+    margin-right: 8px;
+  }
+  .movie-card img {
+    height: 180px;
+  }
+  .movie-card h3 {
+    font-size: 0.9em;
+  }
+  .movie-card p {
+    font-size: 0.7em;
+  }
+}
+
+/* Search Results Styles */
+.search-results-page {
+  padding: 20px;
+}
+
+.search-results-header {
+  margin-bottom: 20px;
+}
+
+.search-results-header h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.search-results-header p {
+  font-size: 1.1em;
+  color: #bbb;
+}
+
+/* Movie Detail Page */
+.movie-detail-page {
+  padding: 40px;
+  color: #e0e0e0;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.detail-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.detail-poster {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.detail-info {
+  flex-grow: 1;
+}
+
+.detail-title {
+  font-size: 2.8em;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.detail-meta {
+  font-size: 1.1em;
+  color: #b3b3b3;
+  margin-bottom: 20px;
+}
+
+.detail-overview {
+  font-size: 1.05em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.detail-genres span {
+  display: inline-block;
+  background-color: #e50914;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.detail-cast-heading {
+  font-size: 1.5em;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.cast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 20px;
+}
+
+.cast-member {
+  text-align: center;
+}
+
+.cast-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 5px;
+  border: 2px solid #333;
+}
+
+.cast-name {
+  font-size: 0.9em;
+  color: #e5e5e5;
+  font-weight: 500;
+}
+
+.cast-character {
+  font-size: 0.8em;
+  color: #b3b3b3;
+}
+
+/* Reviews Section */
+.reviews-section {
+  margin-top: 40px;
+  border-top: 1px solid #333;
+  padding-top: 30px;
+}
+
+.reviews-section h2 {
+  font-size: 2em;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.review-form {
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.review-form textarea {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #333;
+  color: #e0e0e0;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.review-form button {
+  background-color: #e50914;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s ease;
+}
+
+.review-form button:hover {
+  background-color: #ff3333;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-item {
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  position: relative; /* For position of edit/delete buttons */
+}
+
+.review-author {
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.review-content {
+  color: #e0e0e0;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.review-meta {
+  font-size: 0.85em;
+  color: #b3b3b3;
+}
+
+.review-actions {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.review-actions button {
+  background: none;
+  border: none;
+  color: #b3b3b3;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-left: 10px;
+  transition: color 0.2s ease;
+}
+
+.review-actions button:hover {
+  color: #e50914;
+}
+
+/* Auth Page */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
+}
+
+.auth-container {
+  background-color: #1a1a1a;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-container h2 {
+  color: #e5e5e5;
+  margin-bottom: 25px;
+  font-size: 2em;
+}
+
+.auth-form .form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.auth-form label {
+  display: block;
+  color: #b3b3b3;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+.auth-form input[type="email"],
+.auth-form input[type="password"],
+.auth-form input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #333;
+  color: #e5e5e5;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.auth-form button[type="submit"] {
+  background-color: #e50914;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.auth-form button[type="submit"]:hover {
+  background-color: #ff3333;
+}
+
+.auth-toggle-link {
+  display: block;
+  margin-top: 25px;
+  color: #b3b3b3;
+  font-size: 0.9em;
+}
+
+.auth-toggle-link a {
+  color: #e50914;
+  text-decoration: none;
+}
+
+.auth-toggle-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Auth Page */
+@media (max-width: 768px) {
+  .auth-page {
+    padding: 20px;
+  }
+
+  .auth-container {
+    padding: 30px;
+  }
+
+  .auth-container h2 {
+    font-size: 1.8em;
+  }
+
+  .auth-form input {
+    padding: 10px;
+  }
+
+  .auth-form button {
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 20px;
+  }
+
+  .auth-container h2 {
+    font-size: 1.5em;
+  }
+
+  .auth-form input {
+    font-size: 0.9em;
+  }
+
+  .auth-form button {
+    font-size: 0.9em;
+  }
+}
+
+/* Bookmark Page Styles */
+.bookmark-page {
+  padding: 40px;
+  color: #e0e0e0;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.bookmark-page .page-title {
+  font-size: 2.2em;
+  color: #fff;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e50914;
+  padding-bottom: 10px;
+  display: inline-block; /* Only underline the text */
+}
+
+.bookmark-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px;
+}
+
+.bookmark-page .movie-card {
+  margin-right: 0; /* Remove right margin for grid layout */
+}
+
+.no-bookmarks-message {
+  text-align: center;
+  padding: 50px 20px;
+  color: #b3b3b3;
+  font-size: 1.1em;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  margin-top: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* General movie card styles (moved from MovieCard.css as it's common) */
+
+/* Back button in header/search bar */
+/* New styles for the App.jsx header */
+@media (min-width: 769px) {
+  .header-right {
+    display: flex !important;
+  }
+  .mobile-menu-container {
+    display: none !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .app-header, .search-bar-container {
+    padding: 10px 20px;
+  }
+
+  .app-main {
+    padding: 0; /* Adjusted main content padding to 0 */
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header, .search-bar-container {
+    padding: 10px 15px;
+  }
+
+  .app-main {
+    padding: 0; /* Adjusted main content padding to 0 */
+  }
+
+  .auth-nav {
+    display: none; 
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header, .search-bar-container {
+    padding: 8px 10px;
+  }
+
+  .app-main {
+    padding: 0; /* Adjusted main content padding to 0 */
+  }
+}
+
+/* Custom styles for movie card from MovieCard.css (might be duplicated) */
+/* The following styles were in MovieCard.css but might be better here if they are global or cause conflicts */
+/* .movie-card */
+/* .movie-poster-container */
+/* .movie-card:hover */
+/* .movie-poster */
+/* .movie-content */
+/* .movie-title */
+/* .movie-release-date, .movie-rating */
+/* .movie-card:focus, .movie-card:focus-visible */
+/* .bookmark-icon */
+/* .bookmark-icon:hover, .bookmark-icon.bookmarked */
+/* .movie-rank */
+/* .movie-card:hover .movie-rank */
+/* .movie-rank[data-rank="1"], .movie-rank[data-rank="2"], .movie-rank[data-rank="3"] */
+/* @keyframes rankPulse */
+/* .movie-rank[data-rank="1"] */
+/* .movie-card:hover .movie-rank[data-rank="1"] */
+/* .imdb-icon */
+/* .star-icon */
+/* .movies-scroll-row */
+/* @media (max-width: 768px) { .movie-card, .movie-content, .movie-title, .movie-release-date, .movie-rating, .movie-rank } */
+/* @media (max-width: 480px) { .movie-card, .movie-content, .movie-title, .movie-release-date, .movie-rating, .bookmark-icon, .movie-rank } */
+
+/* Force hide any floating icon in header */
+header > .bookmark-icon {
+  display: none !important;
+}
+
+/* Bookmark Button Styling */
+.bookmark-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e5e5e5;
+  font-size: 0.95em;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.bookmark-button:hover {
+  background-color: #e50914;
+  color: #fff;
+  border-color: #e50914;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+}
+
+.bookmark-icon {
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.bookmark-button:hover .bookmark-icon {
+  transform: scale(1.1);
+}
+
+/* Ensure bookmark icon inside the button is not absolutely positioned */
+.bookmark-button .bookmark-icon {
+  position: static !important; /* Override any absolute positioning */
+  top: auto !important;
+  right: auto !important;
+  display: inline-block; /* Ensure it respects inline-flex layout */
+}

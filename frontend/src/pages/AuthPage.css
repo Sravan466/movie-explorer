@@ -1,0 +1,191 @@
+/* frontend/src/pages/AuthPage.css */
+.auth-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* This is good for vertical centering if there's enough height */
+    min-height: calc(100vh - 120px); /* Example: 100vh minus approx header & footer height */
+    padding: 40px 20px;
+    /* background-color: #141414; /* This is already on body, might not be needed here */
+    box-sizing: border-box;
+  }
+  
+  .auth-form-wrapper {
+    background-color: #1f1f1f; /* Slightly lighter than page background */
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 450px;
+    color: #e0e0e0;
+  }
+  
+  .auth-form-wrapper h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2em;
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .auth-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .auth-form .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.95em;
+    color: #b0b0b0;
+  }
+  
+  .auth-form .form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #e0e0e0;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .auth-form .form-group input:focus {
+    outline: none;
+    border-color: #e50914; /* Netflix red accent */
+    box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.3);
+  }
+  
+  .auth-button {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px; /* Space above button */
+  }
+  
+  .auth-button:hover:not(:disabled) {
+    background-color: #f40612; /* Brighter red */
+  }
+  
+  .auth-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+  }
+  
+  .auth-error-message {
+    color: #ff4d4f; /* Brighter red for errors */
+    background-color: rgba(255, 77, 79, 0.1);
+    border: 1px solid rgba(255, 77, 79, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  
+  .auth-success-message {
+    color: #52c41a; /* Green for success */
+    background-color: rgba(82, 196, 26, 0.1);
+    border: 1px solid rgba(82, 196, 26, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  
+  .auth-switch-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #aaa;
+  }
+  
+  .auth-switch-link a {
+    color: #e50914;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .auth-switch-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive adjustments for AuthPage */
+  @media (max-width: 768px) {
+    .auth-page-container {
+      padding: 30px 15px;
+    }
+
+    .auth-form-wrapper {
+      padding: 25px 30px;
+      max-width: 380px; /* Slightly smaller max-width for tablets */
+    }
+
+    .auth-form-wrapper h2 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+
+    .auth-form .form-group input {
+      padding: 10px 12px;
+      font-size: 0.95em;
+    }
+
+    .auth-button {
+      padding: 10px 12px;
+      font-size: 1em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .auth-page-container {
+      padding: 20px 10px;
+      min-height: calc(100vh - 100px); /* Adjust for smaller header/footer */
+    }
+
+    .auth-form-wrapper {
+      padding: 20px 20px;
+      max-width: 95%; /* Almost full width on very small screens */
+    }
+
+    .auth-form-wrapper h2 {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
+
+    .auth-form .form-group label {
+      font-size: 0.9em;
+      margin-bottom: 6px;
+    }
+
+    .auth-form .form-group input {
+      padding: 8px 10px;
+      font-size: 0.9em;
+    }
+
+    .auth-button {
+      padding: 8px 10px;
+      font-size: 0.9em;
+      margin-top: 8px;
+    }
+
+    .auth-error-message, .auth-success-message {
+      padding: 8px;
+      font-size: 0.85em;
+    }
+
+    .auth-switch-link {
+      font-size: 0.8em;
+      margin-top: 15px;
+    }
+  }
+  
