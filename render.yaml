@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: movie-explorer-backend
+    env: node
+    buildCommand: npm run install-all
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: TMDB_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+
+  - type: static
+    name: movie-explorer-frontend
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://movie-explorer-backend.onrender.com 
