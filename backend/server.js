@@ -15,8 +15,7 @@ const PORT = process.env.PORT || 5001; // Use port from .env or default to 5001
 app.use(cors({
   origin: [
     'http://localhost:5173', // Local development
-    'https://movie-explorer-frontend.vercel.app', // Vercel frontend domain
-    'https://movie-explorer.vercel.app' // Alternative Vercel domain
+    'https://movie-explorer-frontend.onrender.com' // 
   ],
   credentials: true
 }));
