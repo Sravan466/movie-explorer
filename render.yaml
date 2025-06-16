@@ -13,8 +13,6 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
-      - key: PORT
-        value: 5001
 
   - type: static
     name: movie-explorer-frontend
