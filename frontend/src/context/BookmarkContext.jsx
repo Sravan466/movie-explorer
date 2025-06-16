@@ -3,7 +3,7 @@ import { useAuth } from './AuthContext'; // Import useAuth
 
 const BookmarkContext = createContext();
 
-const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_URL || 'http://localhost:5001/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
 
 export const BookmarkProvider = ({ children }) => {
   const [bookmarkedItems, setBookmarkedItems] = useState({});
@@ -28,7 +28,7 @@ export const BookmarkProvider = ({ children }) => {
     console.log('BookmarkProvider - Fetching bookmarks with token:', token);
     
     try {
-      const response = await fetch(`${API_BASE_URL}/bookmarks`, {
+      const response = await fetch(`${API_BASE_URL}/api/bookmarks`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
@@ -84,11 +84,11 @@ export const BookmarkProvider = ({ children }) => {
     };
     
     console.log('BookmarkProvider - Request body:', requestBody);
-    console.log('BookmarkProvider - API URL:', `${API_BASE_URL}/bookmarks`);
+    console.log('BookmarkProvider - API URL:', `${API_BASE_URL}/api/bookmarks`);
     console.log('BookmarkProvider - Authorization header:', `Bearer ${token}`);
     
     try {
-      const response = await fetch(`${API_BASE_URL}/bookmarks`, {
+      const response = await fetch(`${API_BASE_URL}/api/bookmarks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ export const BookmarkProvider = ({ children }) => {
     }
     
     try {
-      const response = await fetch(`${API_BASE_URL}/bookmarks/${itemId}/${mediaType}`, {
+      const response = await fetch(`${API_BASE_URL}/api/bookmarks/${itemId}/${mediaType}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
