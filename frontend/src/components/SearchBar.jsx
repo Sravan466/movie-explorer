@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios'; // Add axios import for background image fetch
-import { searchMovies, TMDB_IMAGE_BASE_URL } from '../services/movieService'; // Add TMDB_IMAGE_BASE_URL import
+import axios from 'axios'; // Ensure axios is imported for background image fetch
+import { searchMovies, TMDB_IMAGE_BASE_URL } from '../services/movieService'; // Ensure TMDB_IMAGE_BASE_URL is imported
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import '../styles/SearchBar.css';
@@ -9,18 +9,18 @@ import '../styles/SearchBar.css';
 const TMDB_API_KEY = '4300117430ce27a077cd7dc1bab67637'; // Using the key found in backend/routes/movieRoutes.js
 
 const SearchBar = ({ onSearchResults, showNotification, initialQuery = '' }) => {
-    const [query, setQuery] = useState(initialQuery); // Renamed from searchQuery to query
-    const [debouncedQuery, setDebouncedQuery] = useState(initialQuery); // New state for debounced query
+    const [query, setQuery] = useState(initialQuery);
     const [isLoading, setIsLoading] = useState(false);
     const [backgroundImage, setBackgroundImage] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
     const isSearchPage = location.pathname === '/search';
 
+    const timeoutRef = useRef(null); // For debounce
+
     useEffect(() => {
         const fetchRandomBackground = async () => {
             try {
-                // Fetch a list of popular movies or TV shows
                 const response = await axios.get(`https://api.themoviedb.org/3/trending/all/day?api_key=${TMDB_API_KEY}`);
                 const itemsWithBackdrops = response.data.results.filter(item => item.backdrop_path);
                 
@@ -31,7 +31,6 @@ const SearchBar = ({ onSearchResults, showNotification, initialQuery = '' }) => 
                 }
             } catch (error) {
                 console.error('Error fetching random background image:', error);
-                // Optionally set a fallback image or no image
                 setBackgroundImage(''); 
             }
         };
@@ -39,70 +38,77 @@ const SearchBar = ({ onSearchResults, showNotification, initialQuery = '' }) => 
         fetchRandomBackground();
     }, []); // Run only once on mount
 
-    // Debounce the search query: updates debouncedQuery after a delay
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedQuery(query); // Update debouncedQuery with the latest query
-        }, 300); // 300ms delay
-
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [query]); // Dependency is 'query' (the immediate input value)
-
-    // Trigger search when debouncedQuery changes
-    useEffect(() => {
-        if (debouncedQuery.trim() !== '') {
-            handleSearch(debouncedQuery); // Call handleSearch with the debounced query
-        } else if (isSearchPage) {
-            // Clear results if navigating away from search page and debouncedQuery is empty
-            onSearchResults([], '');
-        }
-    }, [debouncedQuery, isSearchPage]); // Dependency is 'debouncedQuery'
-
-    const handleSearch = async (searchQueryValue) => { // Renamed param to avoid conflict
+    // Memoize handleSearch to ensure its identity is stable for useEffect dependencies
+    const handleSearch = useCallback(async (searchQueryValue) => {
         if (searchQueryValue.trim() === '') {
-            // If query is empty, navigate to home and clear search results
             if (isSearchPage) {
                 navigate('/');
             }
-            onSearchResults([], ''); // Clear search results
+            onSearchResults([], '');
             return;
         }
 
         setIsLoading(true);
 
         try {
-            const results = await searchMovies(searchQueryValue); // Use searchQueryValue
+            const results = await searchMovies(searchQueryValue);
             
-            console.log('Search response:', results); // Debug log (was response.data, now results)
+            console.log('Search response:', results); 
             
             if (Array.isArray(results)) { 
-                onSearchResults(results, searchQueryValue); // Pass searchQueryValue along with results
+                onSearchResults(results, searchQueryValue); 
             } else {
                 console.error('Response data is not an array:', results); 
-                onSearchResults([], searchQueryValue); // Pass searchQueryValue even on error
+                onSearchResults([], searchQueryValue); 
             }
         } catch (error) {
             console.error('Error searching movies:', error.response?.data || error.message);
-            // Show user-friendly error
             if (showNotification) {
                 showNotification('Failed to search movies. Please check your connection and try again.', 'error');
             }
-            onSearchResults([], searchQueryValue); // Pass searchQueryValue even on error
+            onSearchResults([], searchQueryValue); 
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [isSearchPage, navigate, onSearchResults, showNotification]); // Dependencies for useCallback
+
+    // Debounce logic: Triggers handleSearch after a delay when 'query' changes
+    useEffect(() => {
+        // Clear any existing timeout on each 'query' change
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        // Only set a new timeout if the query is not empty
+        if (query.trim() !== '') {
+            timeoutRef.current = setTimeout(() => {
+                handleSearch(query); // Call the memoized handleSearch after the delay
+            }, 300); // 300ms debounce delay
+        } else if (isSearchPage) {
+            // If query is empty and on search page, clear results immediately
+            onSearchResults([], '');
+        }
+
+        // Cleanup function: Clear timeout when component unmounts or dependencies change
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, [query, isSearchPage, handleSearch, onSearchResults]); // Dependencies for useEffect
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleSearch(query); // Use the immediate 'query' for submission
+        // On manual submit, clear any pending debounce and search immediately
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+        handleSearch(query); 
     };
 
     return (
         <div className="search-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
-            <div className="overlay"></div> {/* Add overlay for text readability */}
+            <div className="overlay"></div>
             <div className="search-content">
                 <h2 className="search-title">Welcome.</h2>
                 <p className="search-subtitle">Millions of movies, TV shows and people to discover. Explore now.</p>
@@ -111,7 +117,7 @@ const SearchBar = ({ onSearchResults, showNotification, initialQuery = '' }) => 
                         <input
                             type="text"
                             placeholder="Search for a movie, tv show, person......"
-                            value={query} // Bind to 'query'
+                            value={query} 
                             onChange={(e) => setQuery(e.target.value)}
                             className="search-input"
                         />
