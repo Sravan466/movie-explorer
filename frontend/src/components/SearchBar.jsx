@@ -40,7 +40,8 @@ const SearchBar = ({ onSearchResults, showNotification }) => {
 
         try {
             // Use import.meta.env for Vite environment variables
-            const backendUrl = import.meta.env.VITE_APP_BACKEND_URL || 'http://localhost:5001/api';
+            const backendUrl = (import.meta.env.VITE_APP_BACKEND_URL || 'http://localhost:5001/api').replace(/\/$/, '');
+
             const response = await axios.get(`${backendUrl}/movies/search?query=${encodeURIComponent(searchQuery)}`);
             
             console.log('Search response:', response.data); // Debug log
