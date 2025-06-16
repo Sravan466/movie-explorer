@@ -15,7 +15,7 @@ const addMediaType = (data, type) => {
 };
 
 // Backend API configuration
-const backendUrl = 'http://localhost:5001';
+const backendUrl = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001').replace(/\/$/, '');
 
 // Search movies and TV shows
 export const searchMovies = async (query) => {
