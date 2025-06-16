@@ -15,7 +15,8 @@ const PORT = process.env.PORT || 5001; // Use port from .env or default to 5001
 app.use(cors({
   origin: [
     'http://localhost:5173', // Local development
-    'https://movie-explorer-frontend.onrender.com' // 
+    'https://movie-explorer-frontend.onrender.com',
+    'https://movie-explorer-1-po9t.onrender.com'  
   ],
   credentials: true
 }));
