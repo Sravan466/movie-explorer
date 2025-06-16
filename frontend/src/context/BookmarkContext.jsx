@@ -3,7 +3,7 @@ import { useAuth } from './AuthContext'; // Import useAuth
 
 const BookmarkContext = createContext();
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001').replace(/\/$/, '');
 
 export const BookmarkProvider = ({ children }) => {
   const [bookmarkedItems, setBookmarkedItems] = useState({});
