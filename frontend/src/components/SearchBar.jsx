@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { searchMovies } from '../services/movieService';
+import axios from 'axios'; // Add axios import for background image fetch
+import { searchMovies, TMDB_IMAGE_BASE_URL } from '../services/movieService'; // Add TMDB_IMAGE_BASE_URL import
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import '../styles/SearchBar.css';
 
 const TMDB_API_KEY = '4300117430ce27a077cd7dc1bab67637'; // Using the key found in backend/routes/movieRoutes.js
 
-const SearchBar = ({ onSearchResults, showNotification }) => {
-    const [searchQuery, setSearchQuery] = useState('');
+const SearchBar = ({ onSearchResults, showNotification, initialQuery = '' }) => {
+    const [query, setQuery] = useState(initialQuery); // Renamed from searchQuery to query
+    const [debouncedQuery, setDebouncedQuery] = useState(initialQuery); // New state for debounced query
     const [isLoading, setIsLoading] = useState(false);
     const [backgroundImage, setBackgroundImage] = useState('');
     const navigate = useNavigate();
@@ -37,28 +39,29 @@ const SearchBar = ({ onSearchResults, showNotification }) => {
         fetchRandomBackground();
     }, []); // Run only once on mount
 
-    // Debounce the search query
+    // Debounce the search query: updates debouncedQuery after a delay
     useEffect(() => {
         const handler = setTimeout(() => {
-            setSearchQuery(searchQuery);
+            setDebouncedQuery(query); // Update debouncedQuery with the latest query
         }, 300); // 300ms delay
 
         return () => {
             clearTimeout(handler);
         };
-    }, [searchQuery]);
+    }, [query]); // Dependency is 'query' (the immediate input value)
 
+    // Trigger search when debouncedQuery changes
     useEffect(() => {
-        if (searchQuery.trim() !== '') {
-            handleSearch(searchQuery);
+        if (debouncedQuery.trim() !== '') {
+            handleSearch(debouncedQuery); // Call handleSearch with the debounced query
         } else if (isSearchPage) {
-            // Clear results if navigating away from search page and query is empty
+            // Clear results if navigating away from search page and debouncedQuery is empty
             onSearchResults([], '');
         }
-    }, [searchQuery, isSearchPage]);
+    }, [debouncedQuery, isSearchPage]); // Dependency is 'debouncedQuery'
 
-    const handleSearch = async (searchQuery) => {
-        if (searchQuery.trim() === '') {
+    const handleSearch = async (searchQueryValue) => { // Renamed param to avoid conflict
+        if (searchQueryValue.trim() === '') {
             // If query is empty, navigate to home and clear search results
             if (isSearchPage) {
                 navigate('/');
@@ -70,15 +73,15 @@ const SearchBar = ({ onSearchResults, showNotification }) => {
         setIsLoading(true);
 
         try {
-            const results = await searchMovies(searchQuery); // Directly use searchMovies from movieService
+            const results = await searchMovies(searchQueryValue); // Use searchQueryValue
             
             console.log('Search response:', results); // Debug log (was response.data, now results)
             
-            if (Array.isArray(results)) { // Changed from response.data to results
-                onSearchResults(results, searchQuery); // Pass searchQuery along with results
+            if (Array.isArray(results)) { 
+                onSearchResults(results, searchQueryValue); // Pass searchQueryValue along with results
             } else {
-                console.error('Response data is not an array:', results); // Changed from response.data to results
-                onSearchResults([], searchQuery); // Pass searchQuery even on error
+                console.error('Response data is not an array:', results); 
+                onSearchResults([], searchQueryValue); // Pass searchQueryValue even on error
             }
         } catch (error) {
             console.error('Error searching movies:', error.response?.data || error.message);
@@ -86,7 +89,7 @@ const SearchBar = ({ onSearchResults, showNotification }) => {
             if (showNotification) {
                 showNotification('Failed to search movies. Please check your connection and try again.', 'error');
             }
-            onSearchResults([], searchQuery); // Pass searchQuery even on error
+            onSearchResults([], searchQueryValue); // Pass searchQueryValue even on error
         } finally {
             setIsLoading(false);
         }
@@ -94,7 +97,7 @@ const SearchBar = ({ onSearchResults, showNotification }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleSearch(searchQuery);
+        handleSearch(query); // Use the immediate 'query' for submission
     };
 
     return (
@@ -108,8 +111,8 @@ const SearchBar = ({ onSearchResults, showNotification }) => {
                         <input
                             type="text"
                             placeholder="Search for a movie, tv show, person......"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            value={query} // Bind to 'query'
+                            onChange={(e) => setQuery(e.target.value)}
                             className="search-input"
                         />
                         <button type="submit" className="search-button" disabled={isLoading}>
