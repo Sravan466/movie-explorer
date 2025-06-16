@@ -1169,12 +1169,44 @@ a:hover {
 
 .bookmark-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Default for larger screens */
+  gap: 20px; /* Space between cards */
+  padding: 20px; /* Padding around the grid */
+  justify-content: center; /* Center cards in the grid */
+  align-items: start; /* Align items to the start of their grid area */
+}
+
+/* Adjust grid for tablets and medium screens */
+@media (max-width: 992px) {
+  .bookmark-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 15px;
+  }
+}
+
+/* Adjust grid for mobile screens (e.g., 2 columns) */
+@media (max-width: 768px) {
+  .bookmark-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    padding: 10px;
+  }
+}
+
+/* Further adjust for very small mobile screens (e.g., tighter 2 columns) */
+@media (max-width: 480px) {
+  .bookmark-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    padding: 8px;
+  }
 }
 
 .bookmark-page .movie-card {
-  margin-right: 0; /* Remove right margin for grid layout */
+  /* Ensure MovieCard within bookmark-grid takes full width of its grid item */
+  width: 100%;
+  height: auto; /* Allow height to adjust based on content */
 }
 
 .no-bookmarks-message {
