@@ -303,15 +303,61 @@ function MovieDetailPage({ showNotification }) {
             const containerWidth = castContainerRef.current.offsetWidth;
             
             setShowLeftArrow(castScrollPosition > 1); // Show if scrolled even a pixel
-            setShowRightArrow(castScrollPosition < (scrollWidth - containerWidth - 1)); // Show if there's content to the right
+            setShowRightArrow(scrollWidth > containerWidth); // Show if content overflows
         };
 
-        updateScrollButtonsVisibility(); // Initial check
+        // Initial check
+        updateScrollButtonsVisibility();
 
         // Add resize listener to re-calculate on window resize
         window.addEventListener('resize', updateScrollButtonsVisibility);
-        return () => window.removeEventListener('resize', updateScrollButtonsVisibility);
+
+        // Add a small delay to ensure images are loaded
+        const timeoutId = setTimeout(updateScrollButtonsVisibility, 500);
+
+        return () => {
+            window.removeEventListener('resize', updateScrollButtonsVisibility);
+            clearTimeout(timeoutId);
+        };
     }, [castScrollPosition, movie, loading]); // Rerun if movie data or loading state changes
+
+    // Add a new effect to handle image loading
+    useEffect(() => {
+        if (!castListRef.current || !castContainerRef.current) return;
+
+        const handleImagesLoaded = () => {
+            const scrollWidth = castListRef.current.scrollWidth;
+            const containerWidth = castContainerRef.current.offsetWidth;
+            setShowRightArrow(scrollWidth > containerWidth);
+        };
+
+        // Create an array of all image elements in the cast list
+        const images = castListRef.current.getElementsByTagName('img');
+        let loadedImages = 0;
+        const totalImages = images.length;
+
+        // Add load event listener to each image
+        Array.from(images).forEach(img => {
+            if (img.complete) {
+                loadedImages++;
+                if (loadedImages === totalImages) {
+                    handleImagesLoaded();
+                }
+            } else {
+                img.addEventListener('load', () => {
+                    loadedImages++;
+                    if (loadedImages === totalImages) {
+                        handleImagesLoaded();
+                    }
+                });
+            }
+        });
+
+        // If no images, still check for overflow
+        if (totalImages === 0) {
+            handleImagesLoaded();
+        }
+    }, [movie?.credits?.cast]); // Run when cast data changes
 
     const scrollCast = (direction) => {
         if (!castListRef.current || !castContainerRef.current) return;
@@ -587,8 +633,7 @@ function MovieDetailPage({ showNotification }) {
                         <h3>Trailer</h3>
                         <div className="video-responsive">
                             <iframe
-                                // Corrected YouTube embed URL
-                                src={`https://www.youtube.com/embed/${trailer.key}`}
+                                src={`https://www.youtube.com/embed/${trailer.key}?rel=0`}
                                 title={`${title} Trailer`}
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

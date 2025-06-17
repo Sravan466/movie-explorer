@@ -175,6 +175,7 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  padding: 0 10px;
 }
 
 .cast-list {
@@ -182,6 +183,7 @@
   gap: 15px;
   transition: transform 0.5s ease;
   padding: 10px 0;
+  width: 100%;
 }
 
 .cast-member {
@@ -243,11 +245,13 @@
   transition: background-color 0.2s ease, transform 0.2s ease;
   font-size: 20px;
   font-weight: bold;
+  opacity: 0.9;
 }
 
 .cast-scroll-button:hover {
   background-color: rgba(229, 9, 20, 0.8);
   transform: translateY(-50%) scale(1.1);
+  opacity: 1;
 }
 
 .cast-scroll-button:active {
@@ -263,49 +267,36 @@
 }
 
 .trailer-section {
-  margin: 50px auto 40px auto;
   width: 100%;
-  max-width: 900px;
-  display: flex;
-  flex-direction: column;
+  margin: 40px 0;
+  padding: 0;
 }
 
 .trailer-section h3 {
-  font-size: 1.6em;
-  margin-bottom: 18px;
-  border-bottom: 2px solid #333;
-  padding-bottom: 8px;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
   color: #f0f0f0;
-  font-weight: 600;
-  width: 100%;
-  text-align: center;
-  box-sizing: border-box;
 }
 
 .video-responsive {
-  width: 100%;
-  min-width: 300px;
   position: relative;
-  padding-bottom: 56.25%;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
   height: 0;
-  border-radius: 12px;
-  background: #000;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  will-change: transform, box-shadow;
-}
-
-.video-responsive:hover {
-  box-shadow: 0 15px 35px rgba(0,0,0,0.65);
-  transform: scale(1.01);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .video-responsive iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  border: 0;
-  border-radius: 12px;
+  border: none;
 }
 
 .reviews-placeholder {
@@ -871,7 +862,12 @@ html, body {
   }
 
   .detail-content-wrapper {
-    padding: 20px 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    padding: 16px !important;
   }
 
   .detail-main-content {
@@ -943,8 +939,17 @@ html, body {
   }
 
   .cast-scroll-button {
-    left: 2vw !important;
-    right: 2vw !important;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  .cast-scroll-button.left {
+    left: 5px;
+  }
+
+  .cast-scroll-button.right {
+    right: 5px;
   }
 
   .video-responsive {
@@ -998,9 +1003,16 @@ html, body {
   }
 
   .trailer-section {
-    margin: 20px auto !important;
-    width: 90% !important;
-    max-width: 900px;
+    margin: 30px 0;
+    padding: 0;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .video-responsive {
+    border-radius: 4px;
+    max-width: 100%;
   }
 
   .user-reviews-section {
@@ -1008,11 +1020,17 @@ html, body {
     width: 90% !important;
     max-width: 1200px;
     padding: 32px 16px;
+    text-align: center !important;
+    align-items: center !important;
   }
 
   .user-reviews-section h2 {
     font-size: 1.8em;
     text-align: center;
+  }
+
+  .review-form {
+    margin: 0 auto !important;
   }
 
   .review-header {
@@ -1099,8 +1117,17 @@ html, body {
   }
 
   .cast-scroll-button {
-    left: 1vw !important;
-    right: 1vw !important;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .cast-scroll-button.left {
+    left: 2px;
+  }
+
+  .cast-scroll-button.right {
+    right: 2px;
   }
 
   .video-responsive {
@@ -1164,8 +1191,13 @@ html, body {
   }
 
   .trailer-section {
-    margin: 15px auto !important;
-    width: 95% !important;
+    margin: 20px 0;
+    width: 95%;
+  }
+
+  .trailer-section h3 {
+    font-size: 1.3em;
+    margin-bottom: 15px;
   }
 
   .user-reviews-section {
@@ -1432,8 +1464,7 @@ html, body {
   }
 
   .trailer-section {
-    margin: 20px auto !important;
-    width: 90% !important;
+    margin: 30px 0;
   }
 
   .user-reviews-section {
@@ -1478,8 +1509,7 @@ html, body {
   }
 
   .trailer-section {
-    margin: 15px auto !important;
-    width: 95% !important;
+    margin: 20px 0;
   }
 
   .user-reviews-section {
