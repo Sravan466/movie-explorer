@@ -32,7 +32,7 @@
   z-index: 2;
   width: 100%;
   margin: 40px 0 0 0;
-  padding: 32px 5vw; /* Responsive horizontal padding */
+  padding: 20px 3vw; /* Adjusted padding for small screens */
   background: rgba(24, 24, 27, 0.98);
   border-radius: 0; /* Remove border radius for edge-to-edge look */
   box-shadow: none; /* Remove box shadow for a flat look */
@@ -45,9 +45,10 @@
 
 .detail-main-content {
   display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text within the content */
+  gap: 20px;
   width: 100%;
   margin-bottom: 32px;
 }
@@ -57,9 +58,9 @@
 }
 
 .detail-poster img {
-  width: 300px;
-  min-width: 200px;
-  max-width: 320px;
+  width: 200px; /* Adjust poster size for small screens */
+  min-width: unset;
+  max-width: 100%;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
@@ -78,10 +79,12 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  align-items: center; /* Center text within the info section */
+  text-align: center;
 }
 
 .detail-info h1 {
-  font-size: 2.8em;
+  font-size: 2.2em;
   margin-top: 0;
   margin-bottom: 10px;
   color: #fff;
@@ -92,7 +95,7 @@
   font-style: italic;
   color: #b0b0b0;
   margin-bottom: 20px;
-  font-size: 1.1em;
+  font-size: 1em;
 }
 
 .info-chips {
@@ -100,6 +103,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
+  justify-content: center; /* Center info chips */
 }
 
 .info-chips span {
@@ -120,6 +124,7 @@
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  justify-content: center; /* Center rating */
 }
 
 .rating strong {
@@ -146,11 +151,13 @@
   line-height: 1.7;
   font-size: 1em;
   color: #d0d0d0;
+  text-align: center;
 }
 
 .crew-info p {
   margin: 5px 0;
   font-size: 0.95em;
+  text-align: center;
 }
 
 .crew-info strong {
@@ -186,7 +193,7 @@
 
 .cast-member {
   text-align: center;
-  width: 140px;
+  width: 120px;
   flex-shrink: 0;
   opacity: 0.95;
   transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
@@ -200,7 +207,7 @@
 
 .cast-member img {
   width: 100%;
-  height: 210px;
+  height: 180px;
   object-fit: cover;
   border-radius: 6px;
   margin-bottom: 8px;
@@ -214,14 +221,14 @@
 }
 
 .actor-name {
-  font-size: 0.9em;
+  font-size: 0.85em;
   font-weight: 600;
   margin: 0 0 3px 0;
   color: #e0e0e0;
 }
 
 .character-name {
-  font-size: 0.8em;
+  font-size: 0.75em;
   color: #a0a0a0;
 }
 
@@ -232,8 +239,8 @@
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -241,7 +248,7 @@
   cursor: pointer;
   z-index: 10;
   transition: background-color 0.2s ease, transform 0.2s ease;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
 }
 
@@ -293,7 +300,7 @@
   /* margin: 0 auto; /* Not strictly needed if parent .trailer-section uses align-items:center or if this is full width */
   position: relative;
   padding-bottom: 56.25%; /* 16:9 aspect ratio */
-  height: 0;
+  height: 200px;
   border-radius: 12px; /* Softer edges */
   background: #000; /* Black background while loading/for letterboxing */
   overflow: hidden; /* Important for iframe border-radius and aspect ratio trick */
@@ -418,8 +425,8 @@
   .detail-main-content {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
     text-align: center;
+    gap: 20px;
   }
 
   .detail-poster img {
@@ -433,7 +440,7 @@
   }
 
   .detail-info h1 {
-    font-size: 2em;
+    font-size: 2.2em;
   }
 
   .tagline {
@@ -480,13 +487,13 @@
   }
 
   .cast-scroll-button {
-    width: 35px;
-    height: 35px;
-    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
   }
 
   .video-responsive {
-    height: 250px;
+    height: 200px;
   }
   
   .review-form {
@@ -494,12 +501,12 @@
   }
 
   .review-form h3 {
-    font-size: 1.2em;
+    font-size: 1.3em;
   }
 
   .submit-review-button {
-    padding: 10px 15px;
-    font-size: 0.9em;
+    padding: 10px 20px;
+    font-size: 1em;
   }
 
   .review-item {
@@ -507,7 +514,7 @@
   }
 
   .review-author {
-    font-size: 0.9em;
+    font-size: 1em;
   }
 
   .review-date {
@@ -519,44 +526,43 @@
   }
 
   .review-actions {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    flex-direction: row; /* Ensure horizontal layout */
-    justify-content: flex-end;
+    flex-direction: column;
+    gap: 10px;
   }
   
   .edit-review-button,
   .delete-review-button,
   .save-review-button,
   .cancel-edit-button {
-    width: auto;
-    text-align: center;
-    padding: 6px 12px;
+    width: 100%;
+    font-size: 0.9em;
+    padding: 8px 15px;
   }
 }
 
 @media (max-width: 480px) {
   .backdrop-image {
-    height: 30vh;
-    margin-bottom: -70px;
+    height: 40vh;
+    margin-bottom: -100px;
   }
 
   .detail-content-wrapper {
-    padding: 15px 2vw;
+    padding: 15px 3vw;
     margin: 10px 0 0 0;
   }
 
   .detail-main-content {
-    gap: 15px;
+    flex-direction: column;
+    align-items: center;
   }
 
   .detail-poster img {
-    width: 150px;
+    width: 180px;
+    height: auto;
   }
 
   .detail-info h1 {
-    font-size: 1.6em;
+    font-size: 1.8em;
   }
 
   .tagline {
@@ -577,17 +583,17 @@
   }
 
   .detail-info h3, .cast-section h3, .trailer-section h3, .user-reviews-section h2 {
-    font-size: 1.1em;
+    font-size: 1.2em;
     margin-top: 15px;
     margin-bottom: 10px;
   }
 
   .overview {
-    font-size: 0.85em;
+    font-size: 0.9em;
   }
 
   .crew-info p {
-    font-size: 0.8em;
+    font-size: 0.85em;
   }
 
   .cast-member {
@@ -607,13 +613,13 @@
   }
 
   .cast-scroll-button {
-    width: 30px;
-    height: 30px;
-    font-size: 16px;
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
   }
 
   .video-responsive {
-    height: 200px;
+    height: 180px;
   }
 
   .review-form {
@@ -629,21 +635,20 @@
   }
 
   .review-form textarea {
-    font-size: 0.9em;
-    padding: 8px;
+    min-height: 80px;
   }
 
   .submit-review-button {
-    padding: 8px 12px;
-    font-size: 0.8em;
+    padding: 8px 15px;
+    font-size: 0.9em;
   }
 
   .review-item {
-    padding: 12px;
+    padding: 10px;
   }
 
   .review-author {
-    font-size: 0.85em;
+    font-size: 0.9em;
   }
 
   .review-date {
@@ -655,19 +660,16 @@
   }
 
   .review-actions {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    flex-direction: row; /* Ensure horizontal layout */
-    justify-content: flex-end;
+    flex-direction: column;
+    gap: 8px;
   }
   
   .edit-review-button,
   .delete-review-button,
   .save-review-button,
   .cancel-edit-button {
-    width: auto;
-    text-align: center;
+    width: 100%;
+    font-size: 0.85em;
     padding: 6px 12px;
   }
 }
@@ -1005,8 +1007,6 @@ html, body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-
 
 .edit-review-button,
 .delete-review-button,
