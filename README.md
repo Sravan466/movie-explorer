@@ -1,19 +1,19 @@
 
 # 🎬 Movie Explorer
+A full-stack **MERN** application that lets users **search**, **explore**, **bookmark**, and **review** movies and series using data fetched from **TMDB API**. This dynamic app offers a smooth and intuitive experience with powerful search capabilities, trending updates, secure user login, and personalized bookmarking—all wrapped in a sleek, mobile-friendly interface.
 
-A full-stack **MERN** application that lets users **search**, **explore**, **bookmark**, and **review** movies and series using data fetched from **TMDB API**.
 
-🔗 **Live Demo**: [https://movie-explorer-1-po9t.onrender.com/](https://movie-explorer-1-po9t.onrender.com/)
+🔗 **Live Demo**: (https://movie-explorer-1-po9t.onrender.com/)
 
 ---
 
 ## 📸 Preview
 
 ### 🏠 Home Page & Search
-![Homepage Screenshot](movie-explorer/frontend/src/assets/Screenshot-2025-06-17-150250.png)
+![Homepage Screenshot](./assets/Screenshot-2025-06-17-150250.png)
 
 ### 🔥 Trending & Top Rated
-![Trending Screenshot](movie-explorer/frontend/src/assets/Screenshot-2025-06-17-150330.png)
+![Trending Screenshot](./assets/Screenshot-2025-06-17-150330.png)
 
 ---
 
