@@ -10,10 +10,10 @@ A full-stack **MERN** application that lets users **search**, **explore**, **boo
 ## 📸 Preview
 
 ### 🏠 Home Page & Search
-![Homepage Screenshot](frontend/src/assets/Screenshot-2025-06-150250.png)
+![Homepage Screenshot](movie-explorer/frontend/src/assets/Screenshot-2025-06-17 150250.png)
 
 ### 🔥 Trending & Top Rated
-![Trending Screenshot](frontend/src/assets/Screenshot-2025-06-17-150330.png)
+![Trending Screenshot](movie-explorer/frontend/src/assets/Screenshot-2025-06-17 150330.png)
 
 ---
 
