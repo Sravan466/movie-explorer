@@ -1454,8 +1454,7 @@ html, body {
   }
 
   .cast-scroll-button {
-    left: 2vw !important;
-    right: 2vw !important;
+    /* Removed conflicting left/right properties */
   }
 
   .video-responsive {
@@ -1504,8 +1503,7 @@ html, body {
   }
 
   .cast-scroll-button {
-    left: 1vw !important;
-    right: 1vw !important;
+    /* Removed conflicting left/right properties */
   }
 
   .trailer-section {
