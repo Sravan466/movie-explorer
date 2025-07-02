@@ -12,6 +12,7 @@ import { useAuth } from './context/AuthContext';
 import BookmarkPage from './pages/BookmarkPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
 import { faBookmark as faSolidBookmark, faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Import solid bookmark icon and envelope icon
+import PersonDetailPage from './pages/PersonDetailPage';
 
 function App() {
   const navigate = useNavigate();
@@ -177,7 +178,8 @@ function App() {
     location.pathname === '/register' ||
     location.pathname === '/bookmarks' ||
     location.pathname.startsWith('/movie/') ||
-    location.pathname.startsWith('/tv/');
+    location.pathname.startsWith('/tv/') ||
+    location.pathname.startsWith('/person/');
 
   return (
     <div className="App">
@@ -304,6 +306,9 @@ function App() {
             path="/search"
             element={<SearchResultsComponent />}
           />
+
+          {/* Add PersonDetailPage route here */}
+          <Route path="/person/:personId" element={<PersonDetailPage />} />
 
           {/* Example for Genre/Category pages (implement these pages later) */}
           {/* <Route path="/genre/:genreId" element={<GenrePage onItemClick={handleItemClick} />} /> */}

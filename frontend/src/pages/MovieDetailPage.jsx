@@ -1,9 +1,10 @@
 // src/pages/MovieDetailPage.jsx
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import * as movieService from '../services/movieService'; // Adjust path if needed
 import './MovieDetailPage.css'; // Ensure this CSS file is correctly linked
 import { useAuth } from '../context/AuthContext'; // Assuming you have an AuthContext for user info
+import { getWatchProviders } from '../services/movieService';
 
 function MovieDetailPage({ showNotification }) {
     const { movieId, showId } = useParams(); // Get both possible parameters
@@ -207,6 +208,13 @@ function MovieDetailPage({ showNotification }) {
             // Optionally set a review-specific error state
         }
     }, [contentId, isTV]); // Depend on contentId and isTV
+
+    const [watchProviders, setWatchProviders] = useState(null);
+    const [watchProvidersLoading, setWatchProvidersLoading] = useState(false);
+    const [watchProvidersError, setWatchProvidersError] = useState(null);
+    const userCountry = 'IN'; // You can make this dynamic if needed
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDetails = async () => {
@@ -478,6 +486,48 @@ function MovieDetailPage({ showNotification }) {
         }
     };
 
+    // Fetch watch providers when movie/show is loaded
+    useEffect(() => {
+        if (!movie) return;
+        const fetchProviders = async () => {
+            setWatchProvidersLoading(true);
+            setWatchProvidersError(null);
+            try {
+                const providers = await getWatchProviders(movie.id, isTV ? 'tv' : 'movie');
+                setWatchProviders(providers);
+            } catch (err) {
+                setWatchProvidersError('Failed to load streaming providers.');
+            } finally {
+                setWatchProvidersLoading(false);
+            }
+        };
+        fetchProviders();
+    }, [movie, isTV]);
+
+    // Helper to generate OTT search URLs
+    const getProviderSearchUrl = (providerName, title) => {
+        const encodedTitle = encodeURIComponent(title);
+        switch (providerName.toLowerCase()) {
+            case 'prime video':
+                return `https://www.primevideo.com/search?phrase=${encodedTitle}`;
+            case 'netflix':
+                return `https://www.netflix.com/search?q=${encodedTitle}`;
+            case 'disney+ hotstar':
+            case 'hotstar':
+                return `https://www.hotstar.com/in/search?q=${encodedTitle}`;
+            case 'zee5':
+                return `https://www.zee5.com/search?q=${encodedTitle}`;
+            case 'sonyliv':
+            case 'sony liv':
+                return `https://www.sonyliv.com/search/${encodedTitle}`;
+            case 'jio cinema':
+            case 'jiocinema':
+                return `https://www.jiocinema.com/search/${encodedTitle}`;
+            default:
+                return null;
+        }
+    };
+
     if (loading) {
         return <div className="loading-container"><p className="loading-text-detail">Loading details...</p></div>;
     }
@@ -600,7 +650,12 @@ function MovieDetailPage({ showNotification }) {
                                 style={{ transform: `translateX(-${castScrollPosition}px)` }}
                             >
                                 {movie.credits.cast.slice(0, 20).map(actor => (
-                                    <div key={actor.cast_id || actor.id || actor.credit_id} className="cast-member">
+                                    <div
+                                        key={actor.cast_id || actor.id || actor.credit_id}
+                                        className="cast-member"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => navigate(`/person/${actor.id}`)}
+                                    >
                                         <img
                                             src={actor.profile_path
                                                 ? `${movieService.TMDB_IMAGE_BASE_URL}w185${actor.profile_path}`
@@ -642,6 +697,47 @@ function MovieDetailPage({ showNotification }) {
                         </div>
                     </div>
                 )}
+
+                {/* Watch Now Section */}
+                <div className="watch-now-section">
+                    <h3>Watch Now</h3>
+                    {watchProvidersLoading && <p>Loading streaming providers...</p>}
+                    {watchProvidersError && <p className="error">{watchProvidersError}</p>}
+                    {watchProviders && watchProviders[userCountry] ? (
+                        <div className="providers-list">
+                            {['flatrate', 'rent', 'free'].map(type =>
+                                watchProviders[userCountry][type] && watchProviders[userCountry][type].length > 0 ? (
+                                    <div key={type} className="provider-type-group">
+                                        <h4 style={{ marginBottom: '0.5em' }}>
+                                            {type === 'flatrate' ? 'Subscription' : type.charAt(0).toUpperCase() + type.slice(1)}
+                                        </h4>
+                                        {watchProviders[userCountry][type].map(provider => (
+                                            <div key={provider.provider_id} className="provider-item">
+                                                <img src={`https://image.tmdb.org/t/p/w45${provider.logo_path}`} alt={provider.provider_name} className="provider-logo" />
+                                                <span className="provider-name">{provider.provider_name}</span>
+                                                {/* Price info is not always available from TMDB, so we skip it */}
+                                                <a
+                                                    href={
+                                                        getProviderSearchUrl(provider.provider_name, movie.title || movie.name) ||
+                                                        watchProviders[userCountry].link
+                                                    }
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    <button className="watch-now-btn">
+                                                        {type === 'flatrate' ? 'Watch Now' : type === 'rent' ? 'Rent' : 'Stream Free'}
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : null
+                            )}
+                        </div>
+                    ) : watchProviders && !watchProviders[userCountry] ? (
+                        <p>No streaming providers found for your country.</p>
+                    ) : null}
+                </div>
 
                 {/* User Reviews Section */}
                 <div className="user-reviews-section">

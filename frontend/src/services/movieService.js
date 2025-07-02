@@ -224,3 +224,17 @@ export const updateReview = async (reviewId, reviewData, token) => {
     throw new Error(error.response?.data?.msg || 'Failed to update review');
   }
 };
+
+// Fetch watch providers for a movie or TV show from TMDB
+export const getWatchProviders = async (id, mediaType = 'movie') => {
+  try {
+    // mediaType: 'movie' or 'tv'
+    const response = await axios.get(
+      `${TMDB_BASE_URL}/${mediaType}/${id}/watch/providers?api_key=${TMDB_API_KEY}`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.error('Error fetching watch providers:', error.response?.data || error.message);
+    return null;
+  }
+};

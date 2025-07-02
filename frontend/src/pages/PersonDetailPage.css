@@ -1,0 +1,348 @@
+.person-detail-container {
+  max-width: 1100px;
+  margin: 2em auto;
+  background: #181c24;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  padding: 2.5em 2em;
+  color: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.person-main-content {
+  /* display: flex; */
+  gap: 2.5em;
+  padding: 2em 0;
+}
+
+@media (max-width: 900px) {
+  .person-main-content {
+    flex-direction: column;
+    gap: 2em;
+    padding: 1em 0;
+  }
+}
+
+.person-left-col {
+  min-width: 260px;
+  max-width: 340px;
+  flex: 1 1 320px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+}
+
+.person-profile-img {
+  width: 240px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  margin-bottom: 0.5em;
+}
+
+.person-profile-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  align-items: center;
+}
+
+.person-profile-info p {
+  margin: 0.2em 0;
+  font-size: 1.08em;
+  text-align: center;
+}
+
+.person-biography {
+  margin-top: 0.5em;
+  font-size: 1.12em;
+  line-height: 1.7;
+  text-align: left;
+  color: #e0e0e0;
+  background: #23272f;
+  border-radius: 10px;
+  padding: 1.1em 1em;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+
+.person-photos-section {
+  width: 100%;
+}
+
+.person-photos-header {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin-bottom: 0.7em;
+  letter-spacing: 0.5px;
+}
+
+.person-photos-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 110px);
+  gap: 0.5em;
+  justify-content: start;
+}
+
+@media (max-width: 600px) {
+  .person-photos-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.person-photos-list img {
+  width: 110px;
+  height: 165px;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #23272f;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+
+.person-right-col {
+  flex: 2 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5em;
+}
+
+.person-section-header {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-bottom: 1em;
+  letter-spacing: 0.5px;
+}
+
+.person-knownfor-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+}
+
+@media (min-width: 700px) {
+  .person-knownfor-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .person-knownfor-list {
+    grid-template-columns: 1fr;
+    overflow-x: auto;
+    display: flex;
+    gap: 0.7em;
+  }
+}
+
+.person-knownfor-card {
+  background: #23272f;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.13);
+  padding: 0.7em 0.5em 1em 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+  max-width: 180px;
+}
+
+.person-knownfor-card img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5em;
+  background: #181c24;
+}
+
+.person-knownfor-title {
+  font-size: 1.08em;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 0.2em;
+}
+
+.person-knownfor-type {
+  font-size: 0.95em;
+  color: #ffe082;
+  text-align: center;
+}
+
+.previous-movies-row-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.scroll-arrow {
+  background: #23272f;
+  color: #ffe082;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.5em;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.scroll-arrow.left {
+  margin-right: 0.5em;
+}
+
+.scroll-arrow.right {
+  margin-left: 0.5em;
+}
+
+.person-previous-movies-list {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 1em;
+  overflow-x: auto;
+  padding-bottom: 0.5em;
+  scroll-behavior: smooth;
+  align-items: stretch;
+  min-height: 220px;
+}
+
+.person-previous-movies-list::-webkit-scrollbar {
+  height: 8px;
+  background: #23272f;
+}
+.person-previous-movies-list::-webkit-scrollbar-thumb {
+  background: #e50914;
+  border-radius: 4px;
+}
+.person-previous-movies-list {
+  scrollbar-color: #e50914 #23272f;
+  scrollbar-width: thin;
+}
+
+.person-previous-movie-item {
+  min-width: 140px;
+  max-width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #23272f;
+  border-radius: 8px;
+  padding: 0.7em 0.5em 1em 0.5em;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+
+.person-previous-movie-poster {
+  width: 110px;
+  height: 165px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #181c24;
+  margin-bottom: 0.5em;
+}
+
+.person-previous-movie-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.person-previous-movie-title {
+  font-size: 1.08em;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+}
+
+.person-previous-movie-date {
+  font-size: 0.95em;
+  color: #aaa;
+  text-align: center;
+}
+
+.person-previous-movie-role {
+  font-size: 0.97em;
+  color: #ffe082;
+  text-align: center;
+}
+
+.person-section-divider {
+  height: 1px;
+  background: #23272f;
+  margin: 2em 0 1.5em 0;
+  border: none;
+}
+
+.lazy-img {
+  loading: lazy;
+}
+
+.photo-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1);
+  pointer-events: none;
+}
+.photo-modal-overlay--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.photo-modal-content {
+  position: relative;
+  background: transparent;
+  border-radius: 10px;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), opacity 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+.photo-modal-content--active {
+  transform: scale(1);
+  opacity: 1;
+}
+.photo-modal-img {
+  max-width: 80vw;
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.5);
+}
+.photo-modal-close {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  background: #e50914;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 2em;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
