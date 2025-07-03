@@ -615,16 +615,60 @@ function MovieDetailPage({ showNotification }) {
 
                         <div className="crew-info">
                             {creators.length > 0 && (
-                                <p><strong>Created by:</strong> {creators.map(c => c.name).join(', ')}</p>
+                                <p><strong>Created by:</strong> {creators.map((c, idx) => (
+                                    <span
+                                        key={c.id}
+                                        style={{ color: '#e50914', cursor: 'pointer' }}
+                                        onClick={() => navigate(`/person/${c.id}`)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate(`/person/${c.id}`); }}
+                                    >
+                                        {c.name}{idx < creators.length - 1 ? ', ' : ''}
+                                    </span>
+                                ))}</p>
                             )}
                             {directors.length > 0 && !isTV && (
-                                <p><strong>Director{directors.length > 1 ? 's' : ''}:</strong> {directors.map(d => d.name).join(', ')}</p>
+                                <p><strong>Director{directors.length > 1 ? 's' : ''}:</strong> {directors.map((d, idx) => (
+                                    <span
+                                        key={d.id}
+                                        style={{ color: '#e50914', cursor: 'pointer' }}
+                                        onClick={() => navigate(`/person/${d.id}`)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate(`/person/${d.id}`); }}
+                                    >
+                                        {d.name}{idx < directors.length - 1 ? ', ' : ''}
+                                    </span>
+                                ))}</p>
                             )}
-                             {directors.length > 0 && isTV && creators.length === 0 && ( // Show directors for TV if no creators listed
-                                <p><strong>Director{directors.length > 1 ? 's' : ''}:</strong> {directors.map(d => d.name).join(', ')}</p>
+                            {directors.length > 0 && isTV && creators.length === 0 && (
+                                <p><strong>Director{directors.length > 1 ? 's' : ''}:</strong> {directors.map((d, idx) => (
+                                    <span
+                                        key={d.id}
+                                        style={{ color: '#e50914', cursor: 'pointer' }}
+                                        onClick={() => navigate(`/person/${d.id}`)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate(`/person/${d.id}`); }}
+                                    >
+                                        {d.name}{idx < directors.length - 1 ? ', ' : ''}
+                                    </span>
+                                ))}</p>
                             )}
                             {writers.length > 0 && (
-                                <p><strong>Writer{writers.length > 1 ? 's' : ''}:</strong> {writers.slice(0, 3).map(w => w.name).join(', ')}</p>
+                                <p><strong>Writer{writers.length > 1 ? 's' : ''}:</strong> {writers.slice(0, 3).map((w, idx) => (
+                                    <span
+                                        key={w.id}
+                                        style={{ color: '#e50914', cursor: 'pointer' }}
+                                        onClick={() => navigate(`/person/${w.id}`)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate(`/person/${w.id}`); }}
+                                    >
+                                        {w.name}{idx < Math.min(writers.length, 3) - 1 ? ', ' : ''}
+                                    </span>
+                                ))}</p>
                             )}
                         </div>
                     </div>
@@ -685,7 +729,10 @@ function MovieDetailPage({ showNotification }) {
 
                 {trailer && trailer.key && (
                     <div className="trailer-section">
-                        <h3>Trailer</h3>
+                        <div className="trailer-info">
+                            <h3>Trailer</h3>
+                            {/* Optionally add more trailer info here, e.g., trailer.name or description */}
+                        </div>
                         <div className="video-responsive">
                             <iframe
                                 src={`https://www.youtube.com/embed/${trailer.key}?rel=0`}

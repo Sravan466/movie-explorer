@@ -46,11 +46,12 @@
 .movie-row-content {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
   justify-content: flex-start;
   width: 100%;
-  overflow: hidden; /* Hide anything that goes beyond the content-container */
+  overflow: hidden;
+  min-height: 220px;
 }
 
 .movie-row-scrollable {
@@ -63,7 +64,7 @@
   width: 100%;
   box-sizing: border-box;
   /* These paddings are now consistent with the header's left padding */
-  padding-left: 40px; 
+  padding-left: 0px; 
   padding-right: 0; /* Managed by .movie-row's padding-right */
   margin-left: 0;
   margin-right: 0;
