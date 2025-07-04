@@ -8,6 +8,23 @@ A full-stack **MERN** application that lets users **search**, **explore**, **boo
 ---
 
 
+##  📱ScreenShorts
+
+![movie](https://github.com/Sravan466/movie-explorer/blob/main/ScreenShots/Screenshot%202025-07-04%20135306.png)
+
+---
+
+## Trending Chart
+
+![movie](https://github.com/Sravan466/movie-explorer/blob/main/ScreenShots/Screenshot%202025-07-04%20135318.png)
+
+---
+
+##  Login Page
+
+![movie](https://github.com/Sravan466/movie-explorer/blob/main/ScreenShots/Screenshot%202025-07-04%20135339.png)
+
+
 
 ## ✨ Features
 
