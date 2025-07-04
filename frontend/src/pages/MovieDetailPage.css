@@ -1791,3 +1791,16 @@ html, body {
 .cast-scroll-button {
   align-self: center;
 }
+
+@media (max-width: 768px) {
+  .movie-detail-page {
+    overflow-x: visible !important;
+  }
+  .cast-list-container {
+    display: block !important;
+  }
+  .cast-scroll-button {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+}
