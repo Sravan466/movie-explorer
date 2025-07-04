@@ -230,6 +230,7 @@
 
 .cast-list-container {
   display: flex;
+  position: absolute;
   overflow-x: scroll;
   overflow-y: hidden;
   scroll-behavior: smooth;
@@ -1801,5 +1802,28 @@ html, body {
   .cast-scroll-button {
     position: relative !important;
     z-index: 1 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .cast-section,
+  .cast-scroll-wrapper,
+  .cast-list-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 0 !important;
+    box-sizing: border-box;
+  }
+  .cast-list-container {
+    padding-left: 44px !important; /* match button size */
+    padding-right: 44px !important;
+  }
+  .cast-section h3 {
+    text-align: left !important;
+  }
+  .cast-scroll-button {
+    display: none !important;
   }
 }

@@ -7,8 +7,9 @@ import { useAuth } from '../context/AuthContext'; // Assuming you have an AuthCo
 import { getWatchProviders } from '../services/movieService';
 
 function MovieDetailPage({ showNotification }) {
-    const { movieId, showId } = useParams(); // Get both possible parameters
-    const contentId = movieId || showId; // Use whichever parameter is available
+    // All hooks at the top, before any return
+    const { movieId, showId } = useParams();
+    const contentId = movieId || showId;
     const [movie, setMovie] = useState(null);
     const [trailer, setTrailer] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -17,31 +18,43 @@ function MovieDetailPage({ showNotification }) {
     const [isTV, setIsTV] = useState(false);
     const castListRef = useRef(null);
     const castContainerRef = useRef(null);
-    const [showRightArrow, setShowRightArrow] = useState(false); // Default to false until calculated
+    const [showRightArrow, setShowRightArrow] = useState(false);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
-
-    // State for reviews
     const [userReviews, setUserReviews] = useState([]);
     const [newReviewText, setNewReviewText] = useState('');
     const [newReviewRating, setNewReviewRating] = useState(0);
-    const { user, token } = useAuth(); // Get current user and token from AuthContext
-
-    // State for editing reviews
+    const { user, token } = useAuth();
     const [editingReviewId, setEditingReviewId] = useState(null);
     const [editingReviewText, setEditingReviewText] = useState('');
     const [editingReviewRating, setEditingReviewRating] = useState(0);
-
-    // Additional state for enhanced functionality
     const [hoveredRating, setHoveredRating] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showAllReviews, setShowAllReviews] = useState(false);
     const [reviewsToShow, setReviewsToShow] = useState(3);
-
-    // Review sorting state
     const [sortBy, setSortBy] = useState('newest');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterRating, setFilterRating] = useState(0);
+    const [watchProviders, setWatchProviders] = useState(null);
+    const [watchProvidersLoading, setWatchProvidersLoading] = useState(false);
+    const [watchProvidersError, setWatchProvidersError] = useState(null);
+    const userCountry = 'IN';
+    const navigate = useNavigate();
+    
+    // Mobile detection and arrow button logic - ALREADY IMPLEMENTED
+    const [isMobile, setIsMobile] = useState(() => (typeof window !== 'undefined' ? window.innerWidth <= 768 : false));
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    
+    // Show arrows on mobile always, on desktop based on scroll state - ALREADY IMPLEMENTED
+    const showLeft = isMobile ? true : showLeftArrow;
+    const showRight = isMobile ? true : showRightArrow;
 
-    // Review sorting functionality (this is a regular function, not a hook)
-    const sortReviews = (reviews, sortType) => {
+    // Review sorting functionality (moved before useMemo to fix initialization error)
+    const sortReviews = useCallback((reviews, sortType) => {
         switch (sortType) {
             case 'newest':
                 return [...reviews].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -54,29 +67,22 @@ function MovieDetailPage({ showNotification }) {
             default:
                 return reviews;
         }
-    };
+    }, []);
 
-    // Search and filter functionality
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filterRating, setFilterRating] = useState(0);
-
-    // Search, filter and sort reviews based on current state
+    // Now filteredReviews can safely use sortReviews
     const filteredReviews = useMemo(() => {
         let filtered = userReviews;
-
         if (searchTerm) {
             filtered = filtered.filter(review =>
                 review.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 review.username.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
-
         if (filterRating > 0) {
             filtered = filtered.filter(review => review.rating === filterRating);
         }
-
         return sortReviews(filtered, sortBy);
-    }, [userReviews, searchTerm, filterRating, sortBy]);
+    }, [userReviews, searchTerm, filterRating, sortBy, sortReviews]);
 
     // Enhanced star rating component
     const StarRating = ({ rating, onRatingChange, isEditable = true, size = "large" }) => {
@@ -208,13 +214,6 @@ function MovieDetailPage({ showNotification }) {
             // Optionally set a review-specific error state
         }
     }, [contentId, isTV]); // Depend on contentId and isTV
-
-    const [watchProviders, setWatchProviders] = useState(null);
-    const [watchProvidersLoading, setWatchProvidersLoading] = useState(false);
-    const [watchProvidersError, setWatchProvidersError] = useState(null);
-    const userCountry = 'IN'; // You can make this dynamic if needed
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDetails = async () => {
@@ -372,6 +371,7 @@ function MovieDetailPage({ showNotification }) {
         }
     }, [movie?.credits?.cast]); // Run when cast data changes
 
+    // Cast scrolling function - ALREADY IMPLEMENTED
     const scrollCast = (direction) => {
         if (!castContainerRef.current) return;
 
@@ -674,11 +674,13 @@ function MovieDetailPage({ showNotification }) {
                     </div>
                 </div>
 
+                {/* CAST SECTION WITH MOBILE ARROW BUTTONS - ALREADY IMPLEMENTED */}
                 {hasCast && (
                     <div className="cast-section">
                         <h3>Top Billed Cast</h3>
                         <div className="cast-scroll-wrapper">
-                            {showLeftArrow && (
+                            {/* LEFT ARROW BUTTON - Shows on mobile always, desktop when needed */}
+                            {showLeft && (
                                 <button
                                     className="cast-scroll-button left"
                                     onClick={() => scrollCast('left')}
@@ -713,7 +715,8 @@ function MovieDetailPage({ showNotification }) {
                                     ))}
                                 </div>
                             </div>
-                            {showRightArrow && (
+                            {/* RIGHT ARROW BUTTON - Shows on mobile always, desktop when needed */}
+                            {showRight && (
                                 <button
                                     className="cast-scroll-button right"
                                     onClick={() => scrollCast('right')}
