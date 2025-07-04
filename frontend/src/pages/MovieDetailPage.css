@@ -238,6 +238,22 @@
   background: rgba(35, 39, 47, 0.3);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-color: #e50914 #23272f; /* Modern browsers */
+  scrollbar-width: thin;
+}
+
+.cast-list-container::-webkit-scrollbar {
+  height: 10px;
+}
+.cast-list-container::-webkit-scrollbar-thumb {
+  background: #e50914;
+  border-radius: 5px;
+}
+.cast-list-container::-webkit-scrollbar-track {
+  background: #23272f;
+  border-radius: 5px;
 }
 
 .cast-list {
@@ -246,6 +262,7 @@
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 16px 20px;
   width: 100%;
+  min-width: max-content;
 }
 
 .cast-member {
@@ -319,9 +336,9 @@
 }
 
 .cast-scroll-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  z-index: 2;
+  position: relative;
+  margin: 0 8px;
   background: rgba(35, 39, 47, 0.9);
   backdrop-filter: blur(10px);
   color: #fbbf24;
@@ -333,7 +350,6 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: 10;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 1.2rem;
   font-weight: bold;
@@ -1740,5 +1756,16 @@ html, body {
 .error {
   color: #ff5252;
   margin-top: 0.5em;
+}
+
+.cast-scroll-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 320px; /* Adjust to match cast card height + padding */
+}
+
+.cast-scroll-button {
+  align-self: center;
 }
 

@@ -285,9 +285,8 @@ function MovieDetailPage({ showNotification }) {
         fetchDetails();
         window.scrollTo(0, 0);
 
-        setCastScrollPosition(0);
-        if (castListRef.current) {
-            castListRef.current.style.transform = `translateX(0px)`;
+        if (castContainerRef.current) {
+            castContainerRef.current.scrollLeft = 0;
         }
     }, [contentId, movieId, showId]);
 
@@ -307,27 +306,33 @@ function MovieDetailPage({ showNotification }) {
         }
 
         const updateScrollButtonsVisibility = () => {
-            const scrollWidth = castListRef.current.scrollWidth;
-            const containerWidth = castContainerRef.current.offsetWidth;
-            
-            setShowLeftArrow(castScrollPosition > 1); // Show if scrolled even a pixel
-            setShowRightArrow(scrollWidth > containerWidth); // Show if content overflows
+            const container = castContainerRef.current;
+            const scrollWidth = container.scrollWidth;
+            const containerWidth = container.offsetWidth;
+            const scrollLeft = container.scrollLeft;
+
+            const buffer = 5;
+            setShowLeftArrow(scrollLeft > buffer);
+            setShowRightArrow(scrollLeft + containerWidth < scrollWidth - buffer);
         };
 
         // Initial check
         updateScrollButtonsVisibility();
 
-        // Add resize listener to re-calculate on window resize
+        // Add scroll and resize listeners
+        const container = castContainerRef.current;
+        container.addEventListener('scroll', updateScrollButtonsVisibility);
         window.addEventListener('resize', updateScrollButtonsVisibility);
 
         // Add a small delay to ensure images are loaded
         const timeoutId = setTimeout(updateScrollButtonsVisibility, 500);
 
         return () => {
+            container.removeEventListener('scroll', updateScrollButtonsVisibility);
             window.removeEventListener('resize', updateScrollButtonsVisibility);
             clearTimeout(timeoutId);
         };
-    }, [castScrollPosition, movie, loading]); // Rerun if movie data or loading state changes
+    }, [movie, loading]); // Rerun if movie data or loading state changes
 
     // Add a new effect to handle image loading
     useEffect(() => {
@@ -368,22 +373,17 @@ function MovieDetailPage({ showNotification }) {
     }, [movie?.credits?.cast]); // Run when cast data changes
 
     const scrollCast = (direction) => {
-        if (!castListRef.current || !castContainerRef.current) return;
+        if (!castContainerRef.current) return;
 
-        const castList = castListRef.current;
-        const visibleWidth = castContainerRef.current.offsetWidth;
-        const maxScroll = Math.max(0, castList.scrollWidth - visibleWidth);
-        const scrollAmount = visibleWidth * 0.75; // Scroll by 75% of visible width for better UX
+        const container = castContainerRef.current;
+        const visibleWidth = container.offsetWidth;
+        const scrollAmount = visibleWidth * 0.75; // Scroll by 75% of visible width
 
-        let newPosition;
         if (direction === 'left') {
-            newPosition = Math.max(0, castScrollPosition - scrollAmount);
-        } else { // direction === 'right'
-            newPosition = Math.min(maxScroll, castScrollPosition + scrollAmount);
+            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
-
-        castList.style.transform = `translateX(-${newPosition}px)`;
-        setCastScrollPosition(newPosition);
     };
 
     // Enhanced review submission handler
@@ -677,7 +677,7 @@ function MovieDetailPage({ showNotification }) {
                 {hasCast && (
                     <div className="cast-section">
                         <h3>Top Billed Cast</h3>
-                        <div className="cast-list-container" ref={castContainerRef}>
+                        <div className="cast-scroll-wrapper">
                             {showLeftArrow && (
                                 <button
                                     className="cast-scroll-button left"
@@ -687,33 +687,32 @@ function MovieDetailPage({ showNotification }) {
                                     ❮
                                 </button>
                             )}
-
-                            <div
-                                className="cast-list"
-                                ref={castListRef}
-                                style={{ transform: `translateX(-${castScrollPosition}px)` }}
-                            >
-                                {movie.credits.cast.slice(0, 20).map(actor => (
-                                    <div
-                                        key={actor.cast_id || actor.id || actor.credit_id}
-                                        className="cast-member"
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={() => navigate(`/person/${actor.id}`)}
-                                    >
-                                        <img
-                                            src={actor.profile_path
-                                                ? `${movieService.TMDB_IMAGE_BASE_URL}w185${actor.profile_path}`
-                                                : 'https://placehold.co/185x278/282c34/FFF?text=No+Image'
-                                            }
-                                            alt={actor.name}
-                                            loading="lazy"
-                                        />
-                                        <p className="actor-name">{actor.name}</p>
-                                        <p className="character-name">{actor.character}</p>
-                                    </div>
-                                ))}
+                            <div className="cast-list-container" ref={castContainerRef}>
+                                <div
+                                    className="cast-list"
+                                    ref={castListRef}
+                                >
+                                    {movie.credits.cast.slice(0, 20).map(actor => (
+                                        <div
+                                            key={actor.cast_id || actor.id || actor.credit_id}
+                                            className="cast-member"
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => navigate(`/person/${actor.id}`)}
+                                        >
+                                            <img
+                                                src={actor.profile_path
+                                                    ? `${movieService.TMDB_IMAGE_BASE_URL}w185${actor.profile_path}`
+                                                    : 'https://placehold.co/185x278/282c34/FFF?text=No+Image'
+                                                }
+                                                alt={actor.name}
+                                                loading="lazy"
+                                            />
+                                            <p className="actor-name">{actor.name}</p>
+                                            <p className="character-name">{actor.character}</p>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-
                             {showRightArrow && (
                                 <button
                                     className="cast-scroll-button right"
