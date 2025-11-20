@@ -11,7 +11,7 @@ import './App.css';
 import { useAuth } from './context/AuthContext';
 import BookmarkPage from './pages/BookmarkPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
-import { faBookmark as faSolidBookmark, faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Import solid bookmark icon and envelope icon
+import { faBookmark as faSolidBookmark } from '@fortawesome/free-solid-svg-icons'; // Import solid bookmark icon
 import PersonDetailPage from './pages/PersonDetailPage';
 
 function App() {
@@ -328,13 +328,6 @@ function App() {
         <div className="footer-content">
           <div className="footer-section copyright-section">
             <p className="copyright">© {new Date().getFullYear()} Movie Explorer. All rights reserved.</p>
-          </div>
-          <div className="footer-section credits">
-            <p className="developer-credit">Developed by <span className="developer-name">Sravan Kumar</span></p>
-            <a href="mailto:sravankumarreddy466z@gmail.com" className="developer-email">
-              <FontAwesomeIcon icon={faEnvelope} className="email-icon" />
-              sravankumarreddy466z@gmail.com
-            </a>
           </div>
         </div>
       </footer>
